@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -26,10 +26,10 @@ class User(BaseModel):
     phone: str
     signature: str
     organization_id: Optional[int] = None
-    tags: list[str]
+    tags: List[str]
     suspended: bool
     role: str
 
 
 class Users(BaseModel):
-    __root__: list[ModelItem]
+    __root__: List[User]

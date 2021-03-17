@@ -8,53 +8,49 @@ import json
 
 class JsonHandler():
 
-    def __init__(self, file: Path):
+    def __init__(self):
         self.file_type = 'json'
 
     @classmethod
-    def json_loader(self, file: Path):
+    def read(self, file: Path):
         with file.open('r') as f:
             return json.load(f)
 
     @classmethod #TODO
-    def json_writer(self, file: Path):
+    def writer(self, file: Path):
         pass
 
 
 class DataLoader():
 
-    def __init__(self):
+    def __init__(self, file_type: str, data_dir: Path):
+        if file_type=="json":
+            self.file_type = 'json'
+            self.file_handler = JsonHandler()
+        else:
+            raise NotImplementedError("File handler for this type is not yet implemented")
+        
+        self.users_file = data_dir / f'users.{self.file_type}'
+        self.orgs_file = data_dir / f'organizations.{self.file_type}'
+        self.tickets_file = data_dir / f'tickets.{self.file_type}'
 
-    def load_jsons(self, data_dir: Path) -> Users, Organizations, Tickets:
+        self._check_required_files_exist()
 
-        users_file = data_dir / 'users.json'
-        orgs_file = data_dir / 'organizations.json'
-        tickets_file = data_dir / 'tickets.json'
 
-        if users_file.exist() == False:
-            raise FileNotFoundError(f'Users data not found at {users_file}')
-        if orgs_file.exist() == False:
-            raise FileNotFoundError(f'Organizations data not found at {orgs_file}')
-        if tickets_file.exist() == False:
-            raise FileNotFoundError(f'Tickets data not found at {tickets_file}')
+    def _check_required_files_exist(self):
+        if self.users_file.exists()== False:
+            raise FileNotFoundError(f'Users data not found at {self.users_file}')
+        if self.orgs_file.exists() == False:
+            raise FileNotFoundError(f'Organizations data not found at {self.orgs_file}')
+        if self.tickets_file.exists() == False:
+            raise FileNotFoundError(f'Tickets data not found at {self.tickets_file}')
 
-        users = self._load_users_json(users_file)
-        orgs = self._load_orgs_json(orgs_file)
-        tickets = self._load_tickets_json(tickets_file)
+    def load(self) -> (Users, Organizations, Tickets):
+        users = Users.parse_obj(self.file_handler.read(self.users_file))
+        orgs = Organizations.parse_obj(self.file_handler.read(self.orgs_file))
+        tickets = Tickets.parse_obj(self.file_handler.read(self.tickets_file))
         
         return users, orgs, tickets
-
-    def _load_users_json(file: path) -> Users:
-        user_json = JsonHandler.json_loader(file)
-        return Users.parse_obj(user_json)
-
-    def _load_orgs_json(file: path) -> Organizations:
-        orgs_json = JsonHandler.json_loader(file)
-        return Organizations.parse_obj(orgs_json)
-
-    def _load_tickets_json(file: path) -> Tickets:
-        tickets_json = JsonHandler.json_loader(file)
-        return Tickets.parse_obj(tickets_json)
 
 
         

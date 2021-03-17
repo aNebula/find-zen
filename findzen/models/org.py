@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from pydantic import BaseModel
+from typing import List
 
 
 class Organization(BaseModel):
@@ -12,12 +13,12 @@ class Organization(BaseModel):
     url: str
     external_id: str
     name: str
-    domain_names: list[str]
+    domain_names: List[str]
     created_at: str
     details: str
     shared_tickets: bool
-    tags: list[str]
+    tags: List[str]
 
 
 class Organizations(BaseModel):
-    __root__: list[ModelItem]
+    __root__: List[Organization]

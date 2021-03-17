@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -22,11 +22,11 @@ class Ticket(BaseModel):
     submitter_id: int
     assignee_id: Optional[int] = None
     organization_id: Optional[int] = None
-    tags: list[str]
+    tags: List[str]
     has_incidents: bool
     due_at: Optional[str] = None
     via: str
 
 
 class Tickets(BaseModel):
-    __root__: list[ModelItem]
+    __root__: List[Ticket]
