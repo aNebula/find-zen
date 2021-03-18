@@ -6,11 +6,11 @@ from __future__ import annotations
 
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Ticket(BaseModel):
-    _id: str
+    id: str = Field(..., alias='_id')
     url: str
     external_id: str
     created_at: str

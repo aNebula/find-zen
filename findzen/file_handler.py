@@ -5,6 +5,7 @@ from models.user import User, Users
 from models.ticket import Ticket, Tickets
 from pathlib import Path
 import json
+import pickle
 
 class JsonHandler():
 
@@ -20,6 +21,19 @@ class JsonHandler():
     def writer(self, file: Path):
         pass
 
+class PickleHandler():
+
+    def __init__(self):
+        self.file_type = 'pickle'
+
+    @classmethod
+    def read(self, file: Path):
+        pass
+
+    @classmethod
+    def write(self, file:Path, obj: object):
+        with file.open('wb') as f:
+            pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 class DataLoader():
 
@@ -51,6 +65,26 @@ class DataLoader():
         tickets = Tickets.parse_obj(self.file_handler.read(self.tickets_file))
         
         return users, orgs, tickets
+
+
+class CacheHandler():
+    def __init__(self):
+        self.cache_dir = Path("./.findzen_cache")
+        self.cache_list = {
+            "user_index" : self.cache_dir / 'user_index.pickle',
+            "orgs_index" : self.cache_dir / 'orgs_index.pickle',
+            "tickets_index" : self.cache_dir / 'tickets_index.pickle',
+        }
+        self.file_handler = PickleHandler()
+
+    def write_cache(self, type: str, obj: object):
+        if self.cache_dir.exists() == False:
+            self.cache_dir.mkdir()
+        if type not in self.cache_list.keys():
+            raise NotImplementedError(f'The following type of cache is not implemented: {type}')
+        self.file_handler.write(self.cache_list[type], obj)
+
+    
 
 
         

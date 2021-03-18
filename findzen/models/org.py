@@ -4,12 +4,12 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 
 
 class Organization(BaseModel):
-    _id: int
+    id: int = Field(..., alias='_id')
     url: str
     external_id: str
     name: str
