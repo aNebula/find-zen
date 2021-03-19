@@ -1,8 +1,8 @@
 """Loads data from files into memory."""
 
-from models.org import Organization, Organizations
-from models.user import User, Users
-from models.ticket import Ticket, Tickets
+from findzen.models.org import Organization, Organizations
+from findzen.models.user import User, Users
+from findzen.models.ticket import Ticket, Tickets
 from pathlib import Path
 import json
 import pickle

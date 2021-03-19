@@ -1,12 +1,12 @@
 """Entry point for cli ticket command."""
 
-from commands.command_plus_docs import CommandPlusDocs
-import logging
-from file_handler import CacheHandler
+from findzen.commands.command_plus_docs import CommandPlusDocs
+from findzen.file_handler import CacheHandler
+from findzen.models.ticket import Ticket
+from findzen.search import search, search_user_org_by_tickets
+from findzen.pretty_print import pretty_print_tickets
 import sys
-from models.ticket import Ticket
-from search import search, search_user_org_by_tickets
-from pretty_print import pretty_print_tickets
+import logging
 
 logger = logging.getLogger('findzen')
 

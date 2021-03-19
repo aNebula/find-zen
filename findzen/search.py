@@ -1,4 +1,4 @@
-from file_handler import CacheHandler
+from findzen.file_handler import CacheHandler
 
 
 def search(entity_type, field, queries, flatten_list=False):

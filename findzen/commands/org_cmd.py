@@ -1,12 +1,12 @@
 """Entry point for cli orgatization command."""
 
-from commands.command_plus_docs import CommandPlusDocs
+from findzen.commands.command_plus_docs import CommandPlusDocs
+from findzen.file_handler import CacheHandler
+from findzen.models.org import Organization
+from findzen.search import search, search_user_ticket
+from findzen.pretty_print import pretty_print_orgs
 import logging
-from file_handler import CacheHandler
 import sys
-from models.org import Organization
-from search import search, search_user_ticket
-from pretty_print import pretty_print_orgs
 
 logger = logging.getLogger('findzen')
 

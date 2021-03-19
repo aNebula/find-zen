@@ -1,10 +1,10 @@
 """Entry point for the command findzen CLI."""
 
-from commands.command_plus_docs import CommandPlusDocs
-from commands.load_data import LoadDataCmd
-from commands.user_cmd import UserCmd
-from commands.org_cmd import OrgCmd
-from commands.ticket_cmd import TicketCmd
+from findzen.commands.command_plus_docs import CommandPlusDocs
+from findzen.commands.load_data import LoadDataCmd
+from findzen.commands.user_cmd import UserCmd
+from findzen.commands.org_cmd import OrgCmd
+from findzen.commands.ticket_cmd import TicketCmd
 import logging
 
 logger = logging.getLogger('findzen')

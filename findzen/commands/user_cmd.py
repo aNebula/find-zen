@@ -1,12 +1,12 @@
 """Entry point for cli users command."""
 
-from commands.command_plus_docs import CommandPlusDocs
-import logging
-from file_handler import CacheHandler
+from findzen.commands.command_plus_docs import CommandPlusDocs
+from findzen.file_handler import CacheHandler
+from findzen.models.user import User
+from findzen.search import search, search_org_ticket_by_users
+from findzen.pretty_print import pretty_print_users
 import sys
-from models.user import User
-from search import search, search_org_ticket_by_users
-from pretty_print import pretty_print_users
+import logging
 
 logger = logging.getLogger('findzen')
 

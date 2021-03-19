@@ -1,11 +1,11 @@
-from commands.command_plus_docs import CommandPlusDocs
+from findzen.commands.command_plus_docs import CommandPlusDocs
+from findzen.file_handler import DataLoader, CacheHandler
+from findzen.models.user import User
+from findzen.models.org import Organization
+from findzen.models.ticket import Ticket
 import argparse
 import logging
 from pathlib import Path
-from file_handler import DataLoader, CacheHandler
-from models.user import User
-from models.org import Organization
-from models.ticket import Ticket
 
 logger = logging.getLogger('find_zen')
 
