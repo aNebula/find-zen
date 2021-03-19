@@ -28,7 +28,8 @@ class PickleHandler():
 
     @classmethod
     def read(self, file: Path):
-        pass
+        with file.open('rb') as f:
+            return pickle.load(f)
 
     @classmethod
     def write(self, file:Path, obj: object):
@@ -72,17 +73,30 @@ class CacheHandler():
         self.cache_dir = Path("./.findzen_cache")
         self.cache_list = {
             "user_index" : self.cache_dir / 'user_index.pickle',
-            "orgs_index" : self.cache_dir / 'orgs_index.pickle',
-            "tickets_index" : self.cache_dir / 'tickets_index.pickle',
+            "org_index" : self.cache_dir / 'org_index.pickle',
+            "ticket_index" : self.cache_dir / 'ticket_index.pickle',
         }
-        self.file_handler = PickleHandler()
+        self.cache_handler = PickleHandler()
 
-    def write_cache(self, type: str, obj: object):
+    def _cache_type_to_filename(self, type: str) -> Path:
+        return (self.cache_dir / f'{type}.pickle')
+
+    def write_cache(self, obj: dict):
         if self.cache_dir.exists() == False:
             self.cache_dir.mkdir()
-        if type not in self.cache_list.keys():
-            raise NotImplementedError(f'The following type of cache is not implemented: {type}')
-        self.file_handler.write(self.cache_list[type], obj)
+
+        for cache_type in obj:
+            filename = self._cache_type_to_filename(cache_type)
+            self.cache_handler.write(filename, obj[cache_type])
+
+    def read_cache(self, type: str):
+        if self.cache_dir.exists() == False:
+            raise FileNotFoundError(f'Cache does not exist. Load data first using `load` command.')
+        filename = self._cache_type_to_filename(type)
+        if filename.exists() == False:
+            raise FileNotFoundError(f'This particular data and/or field has not been loaded. Load data first using `load` command')
+        
+        return self.cache_handler.read(filename)
 
     
 

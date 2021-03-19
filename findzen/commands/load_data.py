@@ -1,13 +1,16 @@
-from ilcli import Command
+from commands.command_plus_docs import CommandPlusDocs
 import argparse
 import logging
 from pathlib import Path
 from file_handler import DataLoader, CacheHandler
+from models.user import User
+from models.org import Organization
+from models.ticket import Ticket
 
 logger = logging.getLogger('find_zen')
 
 
-class LoadDataCmd(Command):
+class LoadDataCmd(CommandPlusDocs):
     """Load data for search - build index for the data and save in cache for quicker search."""
     name = 'load'
 
@@ -25,9 +28,9 @@ class LoadDataCmd(Command):
             logger.info("Data loaded into memory")
 
             cache_handler = CacheHandler()
-            cache_handler.write_cache("user_index", self._index_builder(users))
-            cache_handler.write_cache("orgs_index", self._index_builder(orgs))
-            cache_handler.write_cache("tickets_index", self._index_builder(tickets))
+            cache_handler.write_cache(self._index_builder(users, User))
+            cache_handler.write_cache(self._index_builder(orgs, Organization))
+            cache_handler.write_cache(self._index_builder(tickets, Ticket))
 
         except BaseException as err:
             logger.error(f'Failed: {err}')
@@ -35,9 +38,43 @@ class LoadDataCmd(Command):
 
         return 0
 
-
-    def _index_builder(self, data):
         index = {}
         for entry in data.dict()["__root__"]:
             index[str(entry["id"])] = entry
         return index
+
+    def _append_or_create(self, dict, key, value):
+        #if dict is None:
+            #dict = {}
+
+        if key in dict:
+            dict[key].append(value)
+            return dict
+        dict[key] = [value]
+        return dict
+
+    def _index_builder(self, data, data_type):
+        all_indexes = {}
+        key_prefix = f'{data_type.__name__.lower()}_index_by_'
+        for key in data_type.__fields__:
+            all_indexes[f'{key_prefix}{key}']= {}
+
+        for entry in data.dict()["__root__"]:
+            for key in data_type.__fields__:
+                key_string = f'{key_prefix}{key}'
+                if key == "id":
+                    all_indexes[key_string][str(entry[key])] =  entry
+                    continue
+                if key == "tags":
+                    for tag in entry["tags"]:
+                       all_indexes[key_string]=  self._append_or_create(all_indexes[key_string], str(tag), entry["id"])
+                    continue
+                if key == "domain_names":
+                    for domain_name in entry["domain_names"]:
+                       all_indexes[key_string]=  self._append_or_create(all_indexes[key_string], str(domain_name), entry["id"])
+                    continue
+
+                all_indexes[key_string]= self._append_or_create(all_indexes[key_string], str(entry[key]), entry["id"])
+        
+        return all_indexes
+
