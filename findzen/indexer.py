@@ -1,9 +1,4 @@
-def append_or_create(dict, key, value):
-    if key in dict:
-        dict[key].append(value)
-        return dict
-    dict[key] = [value]
-    return dict
+from findzen.utils import append_or_create
 
 def index_builder(data, data_type):
     all_indexes = {}

@@ -5,6 +5,7 @@ from findzen.file_handler import CacheHandler
 from findzen.models.org import Organization
 from findzen.search import search, search_user_ticket
 from findzen.pretty_print import pretty_print_orgs
+from findzen.utils import flatten_list
 import logging
 import sys
 
@@ -31,10 +32,13 @@ class OrgCmd(CommandPlusDocs):
             if search_by_field == "id":
                 org_ids = [search_by_value]
             else:
-                org_ids  = search('organization', search_by_field, [search_by_value], True)  
+                org_ids  = search('organization', search_by_field, [search_by_value])
+                org_ids = flatten_list(org_ids)  
 
             orgs = search('organization', 'id', org_ids)
 
+            org_not_found = len(orgs) == 1 and orgs[0] is None
+            org_not_found = org_not_found or len(orgs) ==0
             if len(orgs) == 0:
                 print(f'Organization with {search_by_field} {search_by_value} not found.')
 

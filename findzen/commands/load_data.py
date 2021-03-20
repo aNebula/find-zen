@@ -32,7 +32,6 @@ class LoadDataCmd(CommandPlusDocs):
             cache_handler.write_cache(index_builder(users, User))
             cache_handler.write_cache(index_builder(orgs, Organization))
             cache_handler.write_cache(index_builder(tickets, Ticket))
-
         except BaseException as err:
             logger.error(f'Failed: {err}')
             return 1

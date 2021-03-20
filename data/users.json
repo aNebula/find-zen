@@ -23,7 +23,7 @@
       "Diaperville"
     ],
     "suspended": true,
-    "role": "admin"
+    "role": "useless"
   },
   {
     "_id": 2,
@@ -49,7 +49,7 @@
       "Henrietta"
     ],
     "suspended": false,
-    "role": "admin"
+    "role": "useless"
   },
   {
     "_id": 3,

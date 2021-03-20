@@ -88,6 +88,12 @@ def test_cache_reader(tmp_cwd, sample_users):
 
     assert Users.parse_obj(sample_users) == Users.parse_obj(actual_cache)
 
+
+def test_cache_reader_fail(tmp_path):
+    ch = CacheHandler()
+    with pytest.raises(FileNotFoundError):
+        ch.read_cache('test_cache')
+
     
 
 

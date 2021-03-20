@@ -1,7 +1,7 @@
 from findzen.file_handler import CacheHandler
 
 
-def search(entity_type, field, queries, flatten_list=False):
+def search(entity_type, field, queries):
     cache = CacheHandler()
     cache_type = f'{entity_type}_index_by_{field}'
     search_index = cache.read_cache(cache_type)
@@ -11,15 +11,9 @@ def search(entity_type, field, queries, flatten_list=False):
         if str(query) in search_index:
             result = search_index[str(query)]
             results.append(result)
-        elif flatten_list:
-            results.append([])
         else:
             results.append(None)
-        
-            
-    if flatten_list==True:
-        nested_results = results
-        results = [item for sublist in nested_results for item in sublist]
+
     return results
 
 

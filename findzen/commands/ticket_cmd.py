@@ -5,6 +5,7 @@ from findzen.file_handler import CacheHandler
 from findzen.models.ticket import Ticket
 from findzen.search import search, search_user_org_by_tickets
 from findzen.pretty_print import pretty_print_tickets
+from findzen.utils import flatten_list
 import sys
 import logging
 
@@ -31,13 +32,13 @@ class TicketCmd(CommandPlusDocs):
             if search_by_field == "id":
                 ticket_ids = [search_by_value]
             else:
-                ticket_ids  = search('ticket', search_by_field, [search_by_value], True)  
+                ticket_ids  = search('ticket', search_by_field, [search_by_value])
+                ticket_ids = flatten_list(ticket_ids)  
             
             tickets = search('ticket', 'id', ticket_ids)
-
-            ticket_not_found = len(tickets) == 1 and tickets[0] is None
-            ticket_not_found = ticket_not_found or len(tickets)==0
             
+            ticket_not_found = len(tickets) == 1 and tickets[0] is None
+            ticket_not_found = ticket_not_found or len(tickets) ==0
             if ticket_not_found:
                 print(f'Ticket with {search_by_field} {search_by_value} not found.')
                 return 0

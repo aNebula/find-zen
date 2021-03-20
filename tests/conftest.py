@@ -18,11 +18,11 @@ def sample_users():
         organization_id="101", tags=["tag1", "tag2"], suspended=False, role="admin"
         )
     user2 = User(
-        _id=2, url="url2.com", external_id="200", 
+        _id=2, url="url.com", external_id="200", 
         name="Jane Doe", created_at="2017-06-23T10:31:39 -10:00",
         active=False, shared=False, last_login_at="2015-04-12T04:03:28 -10:00",
         phone="9675-552-585", signature="StillFake",
-        tags=["tag11", "tag22"], suspended=True, role="role"
+        tags=["tag1", "tag22"], suspended=True, role="role"
         )    
     users_list = [user1, user2]
     return users_list
