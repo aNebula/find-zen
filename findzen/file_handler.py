@@ -11,15 +11,16 @@ class JsonHandler():
 
     def __init__(self):
         self.file_type = 'json'
-
+    
+    @classmethod
+    def write(self, file: Path, data: dict):
+        with file.open('w') as f:
+            json.dump(data, f)
+    
     @classmethod
     def read(self, file: Path):
         with file.open('r') as f:
             return json.load(f)
-
-    @classmethod #TODO
-    def writer(self, file: Path):
-        pass
 
 class PickleHandler():
 
@@ -32,7 +33,7 @@ class PickleHandler():
             return pickle.load(f)
 
     @classmethod
-    def write(self, file:Path, obj: object):
+    def write(self, file:Path, obj: dict):
         with file.open('wb') as f:
             pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
@@ -71,11 +72,6 @@ class DataLoader():
 class CacheHandler():
     def __init__(self):
         self.cache_dir = Path("./.findzen_cache")
-        self.cache_list = {
-            "user_index" : self.cache_dir / 'user_index.pickle',
-            "org_index" : self.cache_dir / 'org_index.pickle',
-            "ticket_index" : self.cache_dir / 'ticket_index.pickle',
-        }
         self.cache_handler = PickleHandler()
 
     def _cache_type_to_filename(self, type: str) -> Path:

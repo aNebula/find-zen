@@ -35,8 +35,12 @@ class TicketCmd(CommandPlusDocs):
             
             tickets = search('ticket', 'id', ticket_ids)
 
-            if len(tickets) == 0:
+            ticket_not_found = len(tickets) == 1 and tickets[0] is None
+            ticket_not_found = ticket_not_found or len(tickets)==0
+            
+            if ticket_not_found:
                 print(f'Ticket with {search_by_field} {search_by_value} not found.')
+                return 0
 
 
             tickets_users_orgs = search_user_org_by_tickets(tickets)
