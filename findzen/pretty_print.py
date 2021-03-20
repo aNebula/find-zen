@@ -9,14 +9,20 @@ def pretty_print_users(users_orgs_tickets):
         print("------------------------")
         print("Organization")
         print("------------------------")
-        print(f'name : {user_details["org"]["name"]}')
-        print(f'id : {user_details["org"]["id"]}')
+        if user_details["org"] is not None:
+            print(f'name : {user_details["org"]["name"]}')
+            print(f'id : {user_details["org"]["id"]}')
+        else:
+            print('No Organisation found.')
         print('\n')
         print("------------------------")
         print("Tickets")
         print("------------------------")
-        for ticket in user_details["tickets"]:
-            print(f'{ticket["subject"]} [STATUS :{ticket["status"].upper()}]')
+        if user_details["tickets"] is not None:
+            for ticket in user_details["tickets"]:
+                print(f'{ticket["subject"]} [STATUS :{ticket["status"].upper()}]')
+        else:
+            print('No Tickets found.')
         print('\n')
 
 def pretty_print_tickets(tickets_users_orgs):
@@ -30,14 +36,20 @@ def pretty_print_tickets(tickets_users_orgs):
         print("------------------------")
         print("User")
         print("------------------------")
-        print(f'id: {ticket_details["user"]["id"]}')
-        print(f'name: {ticket_details["user"]["name"]}')
+        if ticket_details["user"] is None:
+            print('Submitter/User not found.')
+        else:
+            print(f'id: {ticket_details["user"]["id"]}')
+            print(f'name: {ticket_details["user"]["name"]}')
         print('\n')
         print("------------------------")
         print("Organization")
         print("------------------------")
-        print(f'id: {ticket_details["org"]["id"]}')
-        print(f'name: {ticket_details["org"]["name"]}')
+        if ticket_details["org"] is None:
+            print('Organization not found.')
+        else:
+            print(f'id: {ticket_details["org"]["id"]}')
+            print(f'name: {ticket_details["org"]["name"]}')
         print('\n')
 
 def pretty_print_orgs(orgs_users_tickets):
@@ -51,13 +63,19 @@ def pretty_print_orgs(orgs_users_tickets):
         print("------------------------")
         print("Users")
         print("------------------------")
-        for user in org_details["users"]:
-            print(f'id: {user["id"]}, name: {user["name"]}')
+        if org_details["users"] is None:
+            print('No Users found.')
+        else:
+            for user in org_details["users"]:
+                print(f'id: {user["id"]}, name: {user["name"]}')
         print('\n')
         print("------------------------")
         print("Tickets")
         print("------------------------")
-        for ticket in org_details["tickets"]:
-            print(f'{ticket["subject"]} [STATUS: {ticket["status"].upper()}]')
+        if org_details["tickets"] is None:
+            print('No Tickets found.')
+        else:
+            for ticket in org_details["tickets"]:
+                print(f'{ticket["subject"]} [STATUS: {ticket["status"].upper()}]')
         print('\n')
 

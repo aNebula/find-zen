@@ -40,21 +40,6 @@ class UserCmd(CommandPlusDocs):
                 print(f'User with {search_by_field} {search_by_value} not found.')
                 return 0
             
-
-            # org_ids = [user["organization_id"] for user in users]
-            # orgs =search('organization', "id", org_ids)
-            # ticket_ids = search('ticket', "submitter_id", user_ids)
-            # tickets = [search('ticket', 'id', ticket_id) for ticket_id in ticket_ids]
-
-            # print_objects = []
-            # for idx,user in enumerate(users):
-            #     obj = {
-            #         "user": user,
-            #         "org": orgs[idx]['name'],
-            #         "tickets": [ticket["subject"] for ticket in tickets[idx]]
-            #     }
-            #     print_objects.append(obj)
-            
             users_orgs_tickets = search_org_ticket_by_users(users)
 
             pretty_print_users(users_orgs_tickets)

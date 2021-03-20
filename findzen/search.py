@@ -11,11 +11,12 @@ def search(entity_type, field, queries, flatten_list=False):
         if str(query) in search_index:
             result = search_index[str(query)]
             results.append(result)
-
-            # if type(result) is list:
-            #     results+=result
-            # else:
-            #     results.append(result)
+        elif flatten_list:
+            results.append([])
+        else:
+            results.append(None)
+        
+            
     if flatten_list==True:
         nested_results = results
         results = [item for sublist in nested_results for item in sublist]
@@ -24,31 +25,27 @@ def search(entity_type, field, queries, flatten_list=False):
 
 def search_org_ticket_by_users(users):
     cache = CacheHandler()
-    org_index_by_id = cache.read_cache('organization_index_by_id')
-    ticket_index_by_submitter_id = cache.read_cache('ticket_index_by_submitter_id')
+    user_ids = [user["id"] for user in users]
+    org_ids = [user["organization_id"] for user in users]
+    orgs =search('organization', "id", org_ids)
+    ticket_ids = search('ticket', "submitter_id", user_ids)
+
     ticket_index_by_id = cache.read_cache('ticket_index_by_id')
 
     results = []
-
-    for user in users:
-
-        result= {"user": user, "org" : None, "tickets" : []}
-        user_id= str(user["id"])
-
-        org_id = str(user["organization_id"])
-        if org_id in org_index_by_id:
-            org = org_index_by_id[org_id]
-            result["org"] = org
-
-        if user_id in ticket_index_by_submitter_id:
-            ticket_ids = ticket_index_by_submitter_id[user_id]
-            for ticket_id in ticket_ids:
-                ticket = ticket_index_by_id[ticket_id]
-                result["tickets"].append(ticket)
-
+    for idx, user in enumerate(users):
+        tickets=[]
+        if ticket_ids[idx] is not None:
+            for ticket_id in ticket_ids[idx]:
+                if ticket_id in ticket_index_by_id:
+                    tickets.append(ticket_index_by_id[ticket_id])
+        else:
+            tickets=None
+        result = {"user": user, "org": orgs[idx], "tickets": tickets}
         results.append(result)
 
-    return results
+    return results 
+
 
 def search_user_org_by_tickets(tickets):
     ticket_ids = [ticket["id"] for ticket in tickets]
@@ -78,13 +75,19 @@ def search_user_ticket(orgs):
     results = []
     for idx,org in enumerate(orgs):
         users = []
-        for user_id in user_ids[idx]:
-            if str(user_id) in user_index_by_id:
-                users.append(user_index_by_id[str(user_id)])
+        if user_ids[idx] is not None:
+            for user_id in user_ids[idx]:
+                if str(user_id) in user_index_by_id:
+                    users.append(user_index_by_id[str(user_id)])
+        else:
+            users=None
         tickets = []
-        for ticket_id in ticket_ids[idx]:
-            if str(ticket_id) in ticket_index_by_id:
-                tickets.append(ticket_index_by_id[str(ticket_id)])
+        if ticket_ids[idx] is not None:
+            for ticket_id in ticket_ids[idx]:
+                if str(ticket_id) in ticket_index_by_id:
+                    tickets.append(ticket_index_by_id[str(ticket_id)])
+        else:
+            tickets=None
         
         result={"org": org, "users": users, "tickets": tickets}
         results.append(result)

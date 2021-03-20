@@ -354,3 +354,6 @@ MigrationBackup/
 
 # VS Code config files
 .vscode
+
+# Don't commit cache files
+.findzen_cache

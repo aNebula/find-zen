@@ -44,9 +44,6 @@ class LoadDataCmd(CommandPlusDocs):
         return index
 
     def _append_or_create(self, dict, key, value):
-        #if dict is None:
-            #dict = {}
-
         if key in dict:
             dict[key].append(value)
             return dict

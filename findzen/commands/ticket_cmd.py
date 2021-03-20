@@ -49,21 +49,4 @@ class TicketCmd(CommandPlusDocs):
 
         return 0
 
-    def _get_user_org(self, user_id: str, org_id: str):
-        
-        cache = CacheHandler()
-        
-        user_cache = cache.read_cache('user_index')
-        if user_id in user_cache:
-            user = user_cache[user_id]
-        else:
-            user = None
-
-        org_cache = cache.read_cache('org_index')
-        if org_id in org_cache:
-            org = org_cache[org_id]
-        else:
-            org = None
-        
-        return user, org
 
