@@ -9,25 +9,17 @@ import logging
 
 logger = logging.getLogger('findzen')
 
+
 class FindZen(CommandPlusDocs):
     """A simple search cli for user, organisation and ticket data."""
-    
-    subcommands = [
-        LoadDataCmd,
-        UserCmd,
-        OrgCmd,
-        TicketCmd
-        ]
+
+    subcommands = [LoadDataCmd, UserCmd, OrgCmd, TicketCmd]
 
 
-def run()-> None:
+def run() -> None:
     """Run findzen cli."""
     exit(FindZen().run())
 
-if __name__ =='__main__':
+
+if __name__ == '__main__':
     run()
-
-
-
-
-    

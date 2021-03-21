@@ -1,5 +1,6 @@
 """Module for printing results out to command line with formatting."""
 
+
 def pretty_print_users(users_orgs_tickets: dict) -> None:
     """Format and print Users and associated Organizations and Tickets"""
     for user_details in users_orgs_tickets:
@@ -27,11 +28,13 @@ def pretty_print_users(users_orgs_tickets: dict) -> None:
             print('No Tickets found.')
         else:
             for ticket in user_details['tickets']:
-                print(f'{ticket["subject"]} [STATUS :{ticket["status"].upper()}]')
+                print(
+                    f'{ticket["subject"]} [STATUS :{ticket["status"].upper()}]'
+                )
         print('\n')
 
 
-def pretty_print_tickets(tickets_users_orgs:dict) -> None:
+def pretty_print_tickets(tickets_users_orgs: dict) -> None:
     """Format and print found Tickets with associated User and Organizations."""
     for ticket_details in tickets_users_orgs:
         # for each ticket
@@ -46,7 +49,7 @@ def pretty_print_tickets(tickets_users_orgs:dict) -> None:
         print('------------------------')
         print('User')
         print('------------------------')
-        if len(ticket_details['user'])<1:
+        if len(ticket_details['user']) < 1:
             print('Submitter/User not found.')
         else:
             print(f'id: {ticket_details["user"]["id"]}')
@@ -55,7 +58,7 @@ def pretty_print_tickets(tickets_users_orgs:dict) -> None:
         print('------------------------')
         print('Organization')
         print('------------------------')
-        if len(ticket_details['organization']) <1 :
+        if len(ticket_details['organization']) < 1:
             print('Organization not found.')
         else:
             print(f'id: {ticket_details["organization"]["id"]}')
@@ -77,7 +80,7 @@ def pretty_print_orgs(orgs_users_tickets: dict) -> None:
         print('------------------------')
         print('Users')
         print('------------------------')
-        if len(org_details['users']) <1:
+        if len(org_details['users']) < 1:
             print('No Users found.')
         else:
             for user in org_details['users']:
@@ -90,6 +93,7 @@ def pretty_print_orgs(orgs_users_tickets: dict) -> None:
             print('No Tickets found.')
         else:
             for ticket in org_details['tickets']:
-                print(f'{ticket["subject"]} [STATUS: {ticket["status"].upper()}]')
+                print(
+                    f'{ticket["subject"]} [STATUS: {ticket["status"].upper()}]'
+                )
         print('\n')
-

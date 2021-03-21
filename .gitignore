@@ -360,3 +360,5 @@ MigrationBackup/
 
 # Don't commit pytest cache
 .pytest_cache
+
+.yapf_config

@@ -44,12 +44,14 @@ def append_or_create(dictionary: dict, key: str, value: Any) -> dict:
     dictionary[key] = [value]
     return dictionary
 
+
 def fetch_if_key(dictionary, key) -> list:
     """Check if key exists in dictionary. If exists return [value], else return empty list."""
     if str(key) in dictionary:
         return dictionary[str(key)]
     else:
         return []
+
 
 def sanitize_argument(arg: str) -> str:
     """Sanitize cli arguments. Currently it sanitizes boolean arguments to match cache data format."""

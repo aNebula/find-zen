@@ -18,9 +18,10 @@ class LoadDataCmd(CommandPlusDocs):
 
     def _init_arguments(self) -> None:
         self.add_argument(
-            'path', 
-            help='Path to the data directory, containing all 3 of users.json, organizations.json and tickets.json')
-
+            'path',
+            help=
+            'Path to the data directory, containing all 3 of users.json, organizations.json and tickets.json'
+        )
 
     def _run(self, args: argparse.Namespace) -> int:
         try:
@@ -35,9 +36,12 @@ class LoadDataCmd(CommandPlusDocs):
             ticket_index = index_builder(tickets, Ticket)
 
             # Use the current index to cross link entities. E.g. User -> Org obj, User-> Ticket Obj
-            org_index = populated_org_index_with_users_tickets(user_index, org_index, ticket_index)
-            user_index = populate_user_index_with_org_tickets(user_index, org_index, ticket_index)
-            ticket_index = populate_ticket_index_with_user_org(user_index, org_index, ticket_index)
+            org_index = populated_org_index_with_users_tickets(
+                user_index, org_index, ticket_index)
+            user_index = populate_user_index_with_org_tickets(
+                user_index, org_index, ticket_index)
+            ticket_index = populate_ticket_index_with_user_org(
+                user_index, org_index, ticket_index)
 
             # save cache
             cache_handler = CacheHandler()
@@ -45,11 +49,9 @@ class LoadDataCmd(CommandPlusDocs):
             cache_handler.write_cache(org_index)
             cache_handler.write_cache(ticket_index)
 
-
         except BaseException as err:
             logger.error(f'Failed: {err}')
             return 1
 
+        print("Data indexed and cached successfully. You can search now.")
         return 0
-
-
