@@ -90,9 +90,9 @@ A GitHub Actions build pipeline is setup to run test on code push.
 
 5. `Pickle` serialization is used over `json`/`text`/`csv` for faster access to cache.
 
-46 Each objects of primary entity (user/organisation/ticket) was then populated with associated secondary entities. For example, a user in cache holds organisation and ticket objects associated with that particular user. This allows fast constant time search, e.g. `user_role` -> `user_id` -> `user` -> `organisation` and `ticket`
+6. Each objects of primary entity (user/organisation/ticket) was then populated with associated secondary entities. For example, a user in cache holds organisation and ticket objects associated with that particular user. This allows fast constant time search, e.g. `user_role` -> `user_id` -> `user` -> `organisation` and `ticket`
 
-6. Python `dictionary` data structure was used for indexes as it is implemented using HashMap. Search and access is O(1).
+7. Python `dictionary` data structure was used for indexes as it is implemented using HashMap. Search and access is O(1).
 
 ### Forcing user to load data before 1st search
 1. This allows configurability. Instead of expecting data to be in a certain directory, user can now provide path to where data lives.
