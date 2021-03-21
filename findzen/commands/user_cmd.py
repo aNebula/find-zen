@@ -30,16 +30,8 @@ class UserCmd(CommandPlusDocs):
 
             search_by_field = sys.argv[2][2:]
             search_by_value = sanitize_argument(sys.argv[3])
-            if search_by_field not in User.__fields__:
-                raise BaseException('Wrong arguments: Provided field name is not a field in Users data.')
-
-            if search_by_field == 'id':
-                user_ids = [search_by_value]
-            else:
-                user_ids = search_cache('user', search_by_field,
-                                        [search_by_value])
-
-            users = search_cache('user', 'id', user_ids)
+            
+            users = self._search_user(search_by_field, search_by_value)
 
             if len(users) == 0:
                 print(
@@ -53,3 +45,17 @@ class UserCmd(CommandPlusDocs):
         except BaseException as err:
             logger.error(f'Failed: {err}')
             return 1
+
+    def _search_user(self, search_by_field: str, search_by_value: str) -> list:
+        """Given a field and value, search for users. Returns list of matching users."""
+        if search_by_field not in User.__fields__:
+            raise BaseException('Wrong arguments: Provided field name is not a field in Users data.')
+
+        if search_by_field == 'id':
+            user_ids = [search_by_value]
+        else:
+            user_ids = search_cache('user', search_by_field,
+                                        [search_by_value])
+        users = search_cache('user', 'id', user_ids)
+
+        return users

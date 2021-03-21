@@ -109,10 +109,8 @@ def test_populated_org_index_with_users_tickets(sample_users: list,
         ticket_index_pre_population)
 
     org1000_expected_user = [sample_users[0]]
-    org2000_expected_user = []
 
     org1000_expected_tickets = [sample_tickets[0], sample_tickets[1]]
-    org2000_expected_tickets = []
 
     assert org_index_populated['organization_index_by_id']['1000'][
         'users'] == org1000_expected_user

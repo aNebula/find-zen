@@ -52,8 +52,9 @@ findzen ticket -h
 
 
 ## Test
-Findzen implements tests with `pytest` library. To run all the tests run
+Findzen implements tests with `pytest` library. To run all the tests first install [dev] dependencies and then run pytest:
 ```
+$ pip install ".[dev]"
 $ pytest .
 ```
 A GitHub Actions build pipeline is setup to run test on code push.
