@@ -9,7 +9,6 @@
 A simple search cli for user, organisation and ticket data.
 
 ## Install
-------------
 To run `findzen`, you need to have `python3.6` or higher(3.7,3.8,3.9) installed.
 ```
 pip install .
@@ -17,7 +16,6 @@ pip install .
 
 
 ## Usage
--------------
 
 `findzen --help` will show instructions on usage.
 
@@ -51,25 +49,20 @@ findzen organization -h
 findzen ticket -h
 ```
 
-<br>
 
 ## Test
------------
 Findzen implements tests with `pytest` library. To run all the tests run
 ```
 $ pytest .
 ```
 A GitHub Actions build pipeline is setup to run test on code push.
 
-
+------------
 <br>
-------------------------------------------
-------------------------------------------
-------------------------------------------
 <br>
 
 ## Design Decisions
---------------------------------
+
 > Search performance was the top priority while building this tool.
 
 ### Use indexing and caching to achieve O(1) time complexity search.
@@ -119,6 +112,7 @@ Keep the app simple.
 
 
 ## Assumptions
+
 1. Search is only by full match. 'mar' != 'marry'. All the data fits in memory, so the cache should always fit in memory.
 2. Search is case sensetive.
 3. Only the tickets submitted by a user (`user.id` == `ticket.submitter_id`) are included in the result with the user.
