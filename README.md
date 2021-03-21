@@ -9,7 +9,8 @@
 A simple search cli for user, organisation and ticket data.
 
 ## Install
-To run `findzen`, you need to have `python3.6` or higher(3.7,3.8,3.9) installed.
+------------
+To run `findzen`, you need to have `python3.6` or higher(`3.7`,`3.8`,`3.9`) installed.
 ```
 pip install .
 ```
