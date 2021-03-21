@@ -3,9 +3,8 @@
 from findzen.commands.command_plus_docs import CommandPlusDocs
 from findzen.file_handler import CacheHandler
 from findzen.models.user import User
-from findzen.search import search, search_org_ticket_by_users
 from findzen.pretty_print import pretty_print_users
-from findzen.utils import flatten_list
+from findzen.utils import flatten_list, search_cache
 import sys
 import logging
 
@@ -32,10 +31,10 @@ class UserCmd(CommandPlusDocs):
             if search_by_field == "id":
                 user_ids = [search_by_value]
             else:
-                user_ids  = search('user', search_by_field, [search_by_value])
+                user_ids  = search_cache('user', search_by_field, [search_by_value])
                 user_ids = flatten_list(user_ids)
 
-            users = search('user', "id", user_ids)
+            users = search_cache('user', "id", user_ids)
 
             user_not_found = len(users) == 1 and users[0] is None
             user_not_found = user_not_found or len(users) ==0
@@ -43,9 +42,8 @@ class UserCmd(CommandPlusDocs):
                 print(f'User with {search_by_field} {search_by_value} not found.')
                 return 0
             
-            users_orgs_tickets = search_org_ticket_by_users(users)
 
-            pretty_print_users(users_orgs_tickets)
+            pretty_print_users(users)
             return 0
 
         except BaseException as err:
