@@ -1,3 +1,4 @@
+"""Test methods for file handler classes."""
 import pytest
 import pickle
 from findzen.file_handler import JsonHandler, PickleHandler, DataLoader, CacheHandler
@@ -10,22 +11,22 @@ def test_json_handler(tmp_path):
     """Test JsonHandler class with read, write."""
 
     expected_data = {
-        "a" : 1,
-        "b" : "cd"
+        'a' : 1,
+        'b' : 'cd'
     }
     filename = tmp_path / 'test.json'
     JsonHandler.write(filename, expected_data)
 
     actual_data = JsonHandler.read(filename)
-    assert actual_data["a"] == expected_data["a"]
-    assert actual_data["b"] == expected_data["b"]
+    assert actual_data['a'] == expected_data['a']
+    assert actual_data['b'] == expected_data['b']
 
 
 def test_pickle_handler(tmp_path):
     """Test PickleHandler class with read, write."""
     expected_data = {
-        "a" : 1,
-        "b" : "cd"
+        'a' : 1,
+        'b' : 'cd'
     }
     filename = tmp_path / 'test.json'
     ph = PickleHandler()
@@ -33,8 +34,8 @@ def test_pickle_handler(tmp_path):
 
     actual_data = ph.read(filename)
 
-    assert actual_data["a"] == expected_data["a"]
-    assert actual_data["b"] == expected_data["b"]
+    assert actual_data['a'] == expected_data['a']
+    assert actual_data['b'] == expected_data['b']
 
 
 def test_data_loader(sample_data_dir, sample_users, sample_orgs, sample_tickets):
@@ -90,6 +91,7 @@ def test_cache_reader(tmp_cwd, sample_users):
 
 
 def test_cache_reader_fail(tmp_path):
+    """Test expected cache miss."""
     ch = CacheHandler()
     with pytest.raises(FileNotFoundError):
         ch.read_cache('test_cache')

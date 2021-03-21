@@ -21,9 +21,10 @@ class FindZen(CommandPlusDocs):
 
 
 def run()-> None:
+    """Run findzen cli."""
     exit(FindZen().run())
 
-if __name__ =="__main__":
+if __name__ =='__main__':
     run()
 
 

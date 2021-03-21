@@ -357,3 +357,6 @@ MigrationBackup/
 
 # Don't commit cache files
 .findzen_cache
+
+# Don't commit pytest cache
+.pytest_cache
