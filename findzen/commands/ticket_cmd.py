@@ -28,18 +28,8 @@ class TicketCmd(CommandPlusDocs):
 
             search_by_field = sys.argv[2][2:]
             search_by_value = sanitize_argument(sys.argv[3])
-            if search_by_field not in Ticket.__fields__:
-                raise BaseException(
-                    'Wrong arguments: Provided field name is not a field in Tickets data.'
-                )
-
-            if search_by_field == 'id':
-                ticket_ids = [search_by_value]
-            else:
-                ticket_ids = search_cache('ticket', search_by_field,
-                                          [search_by_value])
-
-            tickets = search_cache('ticket', 'id', ticket_ids)
+            
+            tickets = self._search_ticket(search_by_field, search_by_value)
 
             if len(tickets) == 0:
                 print(
@@ -54,3 +44,19 @@ class TicketCmd(CommandPlusDocs):
             return 1
 
         return 0
+
+    def _search_ticket(self, search_by_field: str, search_by_value: str) -> list:
+
+        if search_by_field not in Ticket.__fields__:
+            raise BaseException(
+                'Wrong arguments: Provided field name is not a field in Tickets data.'
+            )
+
+        if search_by_field == 'id':
+            ticket_ids = [search_by_value]
+        else:
+            ticket_ids = search_cache('ticket', search_by_field,
+                                    [search_by_value])
+
+        tickets = search_cache('ticket', 'id', ticket_ids)
+        return tickets

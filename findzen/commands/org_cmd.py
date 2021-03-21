@@ -28,18 +28,8 @@ class OrgCmd(CommandPlusDocs):
 
             search_by_field = sys.argv[2][2:]
             search_by_value = sanitize_argument(sys.argv[3])
-            if search_by_field not in Organization.__fields__:
-                raise BaseException(
-                    'Wrong arguments: Provided field name is not a field in Organizations data.'
-                )
-
-            if search_by_field == 'id':
-                org_ids = [search_by_value]
-            else:
-                org_ids = search_cache('organization', search_by_field,
-                                       [search_by_value])
-
-            orgs = search_cache('organization', 'id', org_ids)
+            
+            orgs = self._search_org(search_by_field, search_by_value)
 
             if len(orgs) == 0:
                 print(
@@ -54,3 +44,20 @@ class OrgCmd(CommandPlusDocs):
             return 1
 
         return 0
+
+    def _search_org(self, search_by_field: str, search_by_value: str) -> list:
+        """Given a field and value, search for orgs. Returns list of matching orgs."""
+        if search_by_field not in Organization.__fields__:
+            raise BaseException(
+                'Wrong arguments: Provided field name is not a field in Organizations data.'
+            )
+
+        if search_by_field == 'id':
+            org_ids = [search_by_value]
+        else:
+            org_ids = search_cache('organization', search_by_field,
+                                    [search_by_value])
+
+        orgs = search_cache('organization', 'id', org_ids)
+
+        return orgs

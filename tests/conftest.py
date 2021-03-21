@@ -58,7 +58,7 @@ def sample_orgs():
                         created_at='2017-06-23T10:31:39 -10:00',
                         details='LedaCorp',
                         shared_tickets=True,
-                        tags=['tag100, tag200'])
+                        tags=['tag100', 'tag200'])
 
     org2 = Organization(_id=2000,
                         url='org2.au',
@@ -68,7 +68,7 @@ def sample_orgs():
                         created_at='2020-06-23T10:31:39 -10:00',
                         details='PidaCorp',
                         shared_tickets=False,
-                        tags=['tag200, tag400'])
+                        tags=['tag200', 'tag400'])
 
     orgs_list = [org1, org2]
     return orgs_list
