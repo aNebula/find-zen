@@ -27,7 +27,7 @@ def test_load_data_run(tmp_cwd, sample_data_dir):
         assert ch.read_cache(index_name) 
 
     for key in Organization.__fields__:
-        index_name = f'Organization_index_by_{key}'
+        index_name = f'organization_index_by_{key}'
         # check no error is thrown for any of the cache files
         assert ch.read_cache(index_name)
 
