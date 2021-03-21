@@ -24,8 +24,7 @@ class OrgCmd(CommandPlusDocs):
         try:
             if len(sys.argv) != 4:
                 raise BaseException(
-                    'Wrong arguments: Requires exactly 1 field key and value to search with. Empty values are indicated by '
-                    '. ')
+                    "Wrong arguments: Requires exactly 1 field key and value to search with. Empty values are indicated by ''. ")
 
             search_by_field = sys.argv[2][2:]
             search_by_value = sanitize_argument(sys.argv[3])
