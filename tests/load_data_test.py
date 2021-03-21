@@ -4,8 +4,6 @@ from findzen.file_handler import CacheHandler
 from findzen.models.user import User
 from findzen.models.org import Organization
 from findzen.models.ticket import Ticket
-from findzen.indexer import index_builder, populate_ticket_index_with_user_org, populate_user_index_with_org_tickets, populated_org_index_with_users_tickets
-import dictdiffer
 
 def test_load_data_run(tmp_cwd, sample_data_dir):
 

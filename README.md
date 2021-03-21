@@ -10,7 +10,7 @@ A simple search cli for user, organisation and ticket data.
 
 ## Install
 ------------
-To run `findzen`, you need to have `python3.6` or higher(`3.7`,`3.8`,`3.9`) installed.
+To run `findzen`, you need to have `python3.8` installed.
 ```
 pip install .
 ```
@@ -52,8 +52,9 @@ findzen ticket -h
 
 
 ## Test
-Findzen implements tests with `pytest` library. To run all the tests run
+Findzen implements tests with `pytest` library. To run all the tests first install [dev] dependencies and then run pytest:
 ```
+$ pip install ".[dev]"
 $ pytest .
 ```
 A GitHub Actions build pipeline is setup to run test on code push.
