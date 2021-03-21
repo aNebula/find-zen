@@ -1,9 +1,10 @@
+"""Command to load data for search - creates indexes and saves cache for faster retrieval."""
 from findzen.commands.command_plus_docs import CommandPlusDocs
 from findzen.file_handler import DataLoader, CacheHandler
 from findzen.models.user import User
 from findzen.models.org import Organization
 from findzen.models.ticket import Ticket
-from findzen.indexer import append_or_create, index_builder
+from findzen.indexer import index_builder, populate_ticket_index_with_user_org, populate_user_index_with_org_tickets, populated_org_index_with_users_tickets
 import argparse
 import logging
 from pathlib import Path
@@ -17,30 +18,40 @@ class LoadDataCmd(CommandPlusDocs):
 
     def _init_arguments(self) -> None:
         self.add_argument(
-            "path", 
-            help="Path to the data directory, containing all 3 of users.json, organizations.json and tickets.json")
-
+            'path',
+            help=
+            'Path to the data directory, containing all 3 of users.json, organizations.json and tickets.json'
+        )
 
     def _run(self, args: argparse.Namespace) -> int:
         try:
             dir_path = Path(args.path)
             data_loader = DataLoader('json', dir_path)
             users, orgs, tickets = data_loader.load()
-            logger.info("Data loaded into memory")
+            logger.info('Data loaded into memory')
 
+            # Build initial index - these indexes do not contain the other associated entities yet.
+            user_index = index_builder(users, User)
+            org_index = index_builder(orgs, Organization)
+            ticket_index = index_builder(tickets, Ticket)
+
+            # Use the current index to cross link entities. E.g. User -> Org obj, User-> Ticket Obj
+            org_index = populated_org_index_with_users_tickets(
+                user_index, org_index, ticket_index)
+            user_index = populate_user_index_with_org_tickets(
+                user_index, org_index, ticket_index)
+            ticket_index = populate_ticket_index_with_user_org(
+                user_index, org_index, ticket_index)
+
+            # save cache
             cache_handler = CacheHandler()
-            cache_handler.write_cache(index_builder(users, User))
-            cache_handler.write_cache(index_builder(orgs, Organization))
-            cache_handler.write_cache(index_builder(tickets, Ticket))
+            cache_handler.write_cache(user_index)
+            cache_handler.write_cache(org_index)
+            cache_handler.write_cache(ticket_index)
+
         except BaseException as err:
             logger.error(f'Failed: {err}')
             return 1
 
+        print("Data indexed and cached successfully. You can search now.")
         return 0
-
-        index = {}
-        for entry in data.dict()["__root__"]:
-            index[str(entry["id"])] = entry
-        return index
-
-
