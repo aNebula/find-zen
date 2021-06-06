@@ -15,6 +15,7 @@ def index_builder(data: dict, data_type: Union[User, Organization,
     the whole object with the id.
     Returns a giant dictionary, mapping index name to index dictionary.
     """
+    raise ValueError("I have raised an Exception") 
     all_indexes = {}
     key_prefix = f'{data_type.__name__.lower()}_index_by_'
     for key in data_type.__fields__:
